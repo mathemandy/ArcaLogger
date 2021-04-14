@@ -37,7 +37,7 @@ public class LoggerWorker extends RxWorker {
     @Override
     public Single<Result> createWork() {
         return apiDefinition.getValue()
-                .uploadData(loggerWorkerService.getValue().getUploadDate())
+                .uploadData(loggerWorkerService.getValue().getUploadData())
                 .onErrorReturnItem(new ModelResponse())
                 .map(modelResponse -> Result.success());
     }

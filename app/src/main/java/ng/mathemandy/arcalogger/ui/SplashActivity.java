@@ -37,12 +37,6 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
     private static final int RC_FINE_LOCATION_WIFI_STATE_PHONE_STATE = 459;
     private final Lazy<PersistenceStorage>  persistentStorage  = inject(PersistenceStorage.class);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-    }
 
     @Override
     protected void onStart() {
@@ -78,6 +72,7 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
 
             WorkManager.getInstance(this).enqueue(uploadWorker);
             persistentStorage.getValue().saveScheduledLog();
+            hideAppLaunchIcon();
         }
     }
 
@@ -110,6 +105,7 @@ public class SplashActivity extends AppCompatActivity implements EasyPermissions
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
             runWorker();
+
         }
     }
 }

@@ -2,6 +2,9 @@ package ng.mathemandy.arcalogger.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -14,7 +17,11 @@ public class HttpFactory {
     static String BASE_URL = "https://api.qa.arca-payments.network/tms/devicestatus/v1/";
 
     public static OkHttpClient provideOKHttp(Interceptor httpLoggerInterceptor) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder().addInterceptor(httpLoggerInterceptor);
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(httpLoggerInterceptor);
         return builder.build();
     }
 

@@ -36,7 +36,7 @@ public class LoggerWorkerService {
         this.context = context;
     }
 
-    ModelRequest getUploadDate() {
+    ModelRequest getUploadData() {
         return new ModelRequest(
                 getAppVersion(),
                 hasGoogleMap(),
