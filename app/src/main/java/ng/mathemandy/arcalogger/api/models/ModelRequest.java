@@ -4,6 +4,7 @@ public class ModelRequest {
     String appVersion;
     int batteryLevel;
     String dataUsageCollationTime;
+    UserLocation userLocation;
 
 }
 
