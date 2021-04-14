@@ -13,9 +13,8 @@ public class LoggerWorker extends RxWorker {
     ApiDefinition apiDefinition;
     LoggerWorkerService loggerWorkerService;
 
-    public LoggerWorker(@NotNull LoggerWorkerService loggerWorkerService,
-                        ApiDefinition apiDefinition,
-                        Context appContext, @NotNull WorkerParameters params) {
+    public LoggerWorker(Context appContext, @NotNull WorkerParameters params, @NotNull LoggerWorkerService loggerWorkerService,
+                        ApiDefinition apiDefinition) {
         super(appContext, params);
         this.apiDefinition  = apiDefinition;
         this.loggerWorkerService  = loggerWorkerService;
