@@ -16,7 +16,7 @@ public class ApiDefinition {
         this.retrofit  = retrofit;
     }
 
-    Observable<ModelResponse> uploadData(ModelRequest log) {
+   public Observable<ModelResponse> uploadData(ModelRequest log) {
         return apiService.uploadLogStatus(log)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

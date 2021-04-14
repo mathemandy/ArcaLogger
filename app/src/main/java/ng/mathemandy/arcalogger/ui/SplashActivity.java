@@ -1,6 +1,9 @@
 package ng.mathemandy.arcalogger.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import android.content.ComponentName;
@@ -11,6 +14,8 @@ import kotlinx.coroutines.Dispatchers;
 import ng.mathemandy.arcalogger.R;
 import ng.mathemandy.arcalogger.workmanager.LoggerWorker;
 
+import java.util.concurrent.TimeUnit;
+
 import static kotlinx.coroutines.CoroutineScopeKt.CoroutineScope;
 
 public class SplashActivity extends AppCompatActivity {
@@ -20,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         hideAppLaunchIcon();
-        runWorkers();
+        runWorker();
     }
 
     void hideAppLaunchIcon() {
@@ -29,28 +34,19 @@ public class SplashActivity extends AppCompatActivity {
         p.setComponentEnabledSetting(name, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
     }
 
-    private void runWorkers() {
-//        CoroutineScope(Dispatchers.getDefault())
-////                .launch {
-////            assertTrue(service1.isEmpty())
-////
-////            // start test
-////            enqueuesWorkers()
-////
-////            // verify it worked
-////            assertResponses(timeoutMs = 5_000)
-//        }
+    private void runWorker() {
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        // Create periodic worker with contraints & 15 minutes interval
+        PeriodicWorkRequest uploadWorker = new PeriodicWorkRequest.Builder(
+                LoggerWorker.class, 1, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(uploadWorker);
     }
 
-    private void enqueuesWorkers() {
-
-//        WorkManager.getInstance(this)
-//                .cancelAllWork()
-//                .getResult()
-//                .await()
-//
-//        enqueueWork<LoggerWorker>(createData(42))
-//        enqueueWork<SimpleWorker>(createData(43))
-    }
 
 }
