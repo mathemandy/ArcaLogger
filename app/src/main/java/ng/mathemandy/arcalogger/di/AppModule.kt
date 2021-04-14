@@ -2,15 +2,14 @@ package ng.mathemandy.arcalogger.di
 
 import ng.mathemandy.arcalogger.api.ApiDefinition
 import ng.mathemandy.arcalogger.api.HttpFactory
+import ng.mathemandy.arcalogger.data.PersistenceStorage
 import ng.mathemandy.arcalogger.workmanager.LoggerWorker
 import ng.mathemandy.arcalogger.workmanager.LoggerWorkerService
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 
-
 val workerScopedModule = module {
-    single { LoggerWorkerService() }
-    worker { LoggerWorker(get(), get(), get(), get()) }
+    single { LoggerWorkerService(get()) }
 }
 
 val networkModule  = module  {
@@ -23,4 +22,8 @@ val networkModule  = module  {
 val apiDefinitionModule  = module {
     single { ApiDefinition(get()) }
 }
-val allModules  =  workerScopedModule + networkModule + apiDefinitionModule
+
+val persistenceStorageModule  = module  {
+    single { PersistenceStorage(get()) }
+}
+val allModules  =  workerScopedModule + networkModule + apiDefinitionModule + persistenceStorageModule

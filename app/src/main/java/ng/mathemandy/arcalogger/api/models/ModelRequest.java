@@ -1,14 +1,8 @@
 package ng.mathemandy.arcalogger.api.models;
 
 public class ModelRequest {
-    String appVersion;
-    int batteryLevel;
-    String dataUsageCollationTime;
-    UserLocation userLocation;
 
-}
+    public ModelRequest(String appVersion, boolean hasApp, String dataUsageCollationTime,  int signalStrength, int numberOfApps, UserLocation location, String terminalId, String networkType, String connectivityStatus, int batteryLevel) {
+    }
 
-class UserLocation {
-    int latitude;
-    int longitude;
 }

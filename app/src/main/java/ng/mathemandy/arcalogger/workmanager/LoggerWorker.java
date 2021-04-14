@@ -1,30 +1,45 @@
 package ng.mathemandy.arcalogger.workmanager;
 
 import android.content.Context;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.work.RxWorker;
 import androidx.work.WorkerParameters;
-import io.reactivex.Single;
-import ng.mathemandy.arcalogger.api.ApiDefinition;
 import org.jetbrains.annotations.NotNull;
+import io.reactivex.Single;
+import kotlin.Lazy;
+import ng.mathemandy.arcalogger.api.ApiDefinition;
+import ng.mathemandy.arcalogger.api.models.ModelResponse;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
+/*
+* Worker for scheduling work to be done in the background.
+* Using Rxworker so i can be able to get parse the result from
+* @param apidefinition
+* */
 public class LoggerWorker extends RxWorker {
 
-    ApiDefinition apiDefinition;
-    LoggerWorkerService loggerWorkerService;
+    private final Lazy<ApiDefinition> apiDefinition = inject(ApiDefinition.class);
+    private final Lazy<LoggerWorkerService> loggerWorkerService = inject(LoggerWorkerService.class);
 
-    public LoggerWorker(Context appContext, @NotNull WorkerParameters params, @NotNull LoggerWorkerService loggerWorkerService,
-                        ApiDefinition apiDefinition) {
+    public LoggerWorker(Context appContext, @NotNull WorkerParameters params) {
         super(appContext, params);
-        this.apiDefinition  = apiDefinition;
-        this.loggerWorkerService  = loggerWorkerService;
     }
 
-    @NonNull
+
+    /*
+    * Performs the work to be done.
+    * Returns Result.Success whether or not the call failed so that work manager can enqueue the next task.
+    * */
+
     @NotNull
     @Override
     public Single<Result> createWork() {
-        return apiDefinition.uploadData(loggerWorkerService.getUploadDate()).map(modelResponse -> Result.success());
+        return apiDefinition.getValue()
+                .uploadData(loggerWorkerService.getValue().getUploadDate())
+                .onErrorReturnItem(new ModelResponse())
+                .map(modelResponse -> Result.success());
     }
-
 }

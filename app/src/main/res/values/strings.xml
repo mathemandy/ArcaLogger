@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ArcaLogger</string>
+    <string name="wifi_and_location__phone_rationale">We need access to your location and wifi state to get correct info about this device</string>
 </resources>
