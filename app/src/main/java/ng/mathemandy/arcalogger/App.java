@@ -2,10 +2,11 @@ package ng.mathemandy.arcalogger;
 
 import android.app.Application;
 
+import android.util.Log;
+import io.reactivex.plugins.RxJavaPlugins;
+import ng.mathemandy.arcalogger.di.AppModuleKt;
 import org.koin.android.java.KoinAndroidApplication;
 import org.koin.core.KoinApplication;
-
-import ng.mathemandy.arcalogger.di.AppModuleKt;
 
 import static org.koin.core.context.DefaultContextExtKt.startKoin;
 
@@ -19,5 +20,6 @@ public class App  extends Application {
         KoinApplication koin = KoinAndroidApplication.create(this)
                 .modules(AppModuleKt.getAllModules());
         startKoin(koin);
+        RxJavaPlugins.setErrorHandler(throwable -> Log.d("Arca", throwable.getMessage()));
     }
 }

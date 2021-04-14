@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 val workerScopedModule = module {
     single { LoggerWorkerService() }
-    worker { LoggerWorker(get(), get(), get()) }
+    worker { LoggerWorker(get(), get(), get(), get()) }
 }
 
 val networkModule  = module  {

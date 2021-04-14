@@ -1,17 +1,14 @@
 package ng.mathemandy.arcalogger.workmanager;
 
 import android.content.Context;
-
-import androidx.work.CoroutineWorker;
+import androidx.annotation.NonNull;
+import androidx.work.RxWorker;
 import androidx.work.WorkerParameters;
-
+import io.reactivex.Single;
 import ng.mathemandy.arcalogger.api.ApiDefinition;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import kotlin.coroutines.Continuation;
-
-public class LoggerWorker extends CoroutineWorker {
+public class LoggerWorker extends RxWorker {
 
     ApiDefinition apiDefinition;
     LoggerWorkerService loggerWorkerService;
@@ -24,13 +21,11 @@ public class LoggerWorker extends CoroutineWorker {
         this.loggerWorkerService  = loggerWorkerService;
     }
 
-    @Nullable
+    @NonNull
+    @NotNull
     @Override
-    public Object doWork(@NotNull Continuation<? super Result> continuation) {
-
-        apiDefinition.uploadData(loggerWorkerService.getUploadDate());
-
-        return null;
+    public Single<Result> createWork() {
+        return apiDefinition.uploadData(loggerWorkerService.getUploadDate()).map(modelResponse -> Result.success());
     }
 
 }
