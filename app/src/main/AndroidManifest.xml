@@ -3,8 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="ng.mathemandy.arcalogger"
     >
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ArcaLogger"
         >
-        <activity android:name=".SplashActivity">
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
